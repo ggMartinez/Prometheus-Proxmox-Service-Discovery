@@ -8,7 +8,7 @@ services:
         image: thegeeklab/prometheus-pve-sd
     exporter:
         depends_on: 
-          - prometheus-pve-sd
+          - collector
         image: php:8.2-apache
         ports:
             - 8081:80
