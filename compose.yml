@@ -1,0 +1,30 @@
+services:
+    permissions-fix:
+        image: centos
+        volumes:
+            - ./out:/out
+            - ./metrics:/metrics
+        command: touch /out/metrics.json && chmod +r -R /out && chmod +r -R /metrics
+    prometheus-pve-sd:
+        depends_on: permissions_fix
+        environment:
+            - PROMETHEUS_PVE_SD_LOG_LEVEL=info
+            - PROMETHEUS_PVE_SD_LOG_FORMAT=console
+            - PROMETHEUS_PVE_SD_OUTPUT_FILE=/out/metrics.json
+            - PROMETHEUS_PVE_SD_SERVICE=true
+            - PROMETHEUS_PVE_SD_PVE_SERVER=proxmox.ggmartinez.duckdns.org:443
+            - PROMETHEUS_PVE_SD_PVE_VERIFY_SSL=true
+            - PROMETHEUS_PVE_SD_PVE_USER=root@pam
+            - PROMETHEUS_PVE_SD_PVE_PASSWORD=maiden
+            - PY_COLORS=1
+        volumes:
+            - ./out:/out
+        image: thegeeklab/prometheus-pve-sd
+    prometheus-pve-sd-web:
+        depends_on: prometheus-pve-sd
+        image: php:8.2-apache
+        ports:
+            - 8081:80
+        volumes:
+            - ./out:/out
+            - ./metrics:/var/www/html/metrics
