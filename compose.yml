@@ -6,7 +6,8 @@ services:
             - ./metrics:/metrics
         command: touch /out/metrics.json && chmod +r -R /out && chmod +r -R /metrics
     prometheus-pve-sd:
-        depends_on: permissions_fix
+        depends_on: 
+          - permissions_fix
         env_file:
             - path: .env
               required: true
@@ -14,7 +15,8 @@ services:
             - ./out:/out
         image: thegeeklab/prometheus-pve-sd
     prometheus-pve-sd-web:
-        depends_on: prometheus-pve-sd
+        depends_on: 
+          - prometheus-pve-sd
         image: php:8.2-apache
         ports:
             - 8081:80
