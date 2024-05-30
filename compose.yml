@@ -1,12 +1,12 @@
 services:
-    prometheus-pve-sd:
+    collector:
         env_file:
             - path: .env
               required: true
         volumes:
             - ./out:/out
         image: thegeeklab/prometheus-pve-sd
-    prometheus-pve-sd-web:
+    exporter:
         depends_on: 
           - prometheus-pve-sd
         image: php:8.2-apache
