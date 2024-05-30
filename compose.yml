@@ -7,7 +7,7 @@ services:
         command: touch /out/metrics.json && chmod +r -R /out && chmod +r -R /metrics
     prometheus-pve-sd:
         depends_on: 
-          - permissions_fix
+          - permissions-fix
         env_file:
             - path: .env
               required: true
