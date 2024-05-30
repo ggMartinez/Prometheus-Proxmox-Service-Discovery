@@ -4,7 +4,7 @@ services:
         volumes:
             - ./out:/out
             - ./metrics:/metrics
-        command: bash -c "touch /out/metrics.json && chmod +r -R /out && chmod +r -R /metrics"
+        command: bash -c "touch /out/metrics.json && chown 33 /out/metrics.json && chmod +r -R /metrics"
     prometheus-pve-sd:
         depends_on: 
           - permissions-fix
