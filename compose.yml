@@ -1,15 +1,15 @@
 services:
     collector:
-        env_file:
-            - path: .env
-              required: true
+        image: thegeeklab/prometheus-pve-sd
+        env_file: .env
+        restart: unless-stopped
         volumes:
             - ./out:/out
-        image: thegeeklab/prometheus-pve-sd
     exporter:
-        depends_on: 
-          - collector
         image: php:8.2-apache
+        restart: unless-stopped
+        depends_on:
+          - collector
         ports:
             - 8081:80
         volumes:
